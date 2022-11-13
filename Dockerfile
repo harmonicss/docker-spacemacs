@@ -2,14 +2,13 @@
 # Spacemacs Docker Container
 #
 # 
-#  build using :
+#  build using : (dont forget the .)
 #
-#  docket build -t harmonicss/spacemacs --build-arg XAUTHORITY=$XAUTHORITY --build-arg
-#  USERNAME=$USERNAME .
+#  docker build -t harmonicss/spacemacs --build-arg XAUTHORITY=$XAUTHORITY --build-arg USERNAME=$USER .
 #
 #  Run using :
 #
-#  docker run  -it --rm  -e DISPLAY="unix$DISPLAY" --net=host harmonicss/spacemacs emacs
+#  docker run  -it --rm  -e DISPLAY --net=host harmonicss/spacemacs emacs
 #
 #
 
@@ -30,7 +29,7 @@ RUN apt install -y gcc
 RUN apt install -y pip
 RUN apt install -y clangd-13
 RUN apt install -y cppcheck
-RUN pip install -y python-lsp-server
+RUN pip install python-lsp-server
 
 # To Remove emacs loading warnings
 RUN apt install -y libcanberra-gtk-module libcanberra-gtk3-module 
@@ -57,7 +56,7 @@ WORKDIR /home/$USERNAME
 ENV UNAME $USERNAME 
 ENV GNAME $USERNAME 
 ENV XAUTHORTY $XAUTHORITY
-VOLUME $XAUTHORITY /home/$USERNAME/.Xauthority
+VOLUME $XAUTHORITY /home/$USERNAME/$XAUTHORITY
 VOLUME ~/Projects /home/$USERNAME/Projects
 
 # Configure .bashrc properties
