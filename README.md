@@ -12,13 +12,19 @@
  - source code pro font
 
 
-  build using : (dont forget the .)
-  ===========
+ Build using (dont forget the .)
+ ===========
 
-  docker build -t harmonicss/spacemacs --build-arg XAUTHORITY=$XAUTHORITY --build-arg USERNAME=$USER .
+    docker build -t harmonicss/spacemacs --build-arg XAUTHORITY=$XAUTHORITY --build-arg USERNAME=$USER .
 
-  Run using :
-  ===========
 
-  docker run  -it --rm  -e DISPLAY --net=host -v ~/Projects:/home/$USER/Projects harmonicss/spacemacs
+ Run using
+ =========
 
+    docker run  -it --rm  -e DISPLAY --net=host -v ~/Projects:/home/$USER/Projects --name spacemacs harmonicss/spacemacs
+ 
+ 
+ Start spacemacs
+ ===============
+  
+    docker start spacemacs
