@@ -5,15 +5,8 @@
 #
 # Ed Liversidge, Harmonic Software Systems Ltd harmonicss.co.uk
 #
-# Installs a spacemacs docker continer with the following features:
-#
-# - fixed spacemacs version as of Nov 12 2022
-# - .spacemacs config file used at HSS
-# - git
-# - gnu global for tagging
-# - clangd, gcc and cppcheck for live syntax checking usng lsp-mode 
-# - source code pro font
-#
+# Installs a spacemacs docker continer with development environment for C and
+# Rust development.
 #
 #  build using : (dont forget the .)
 #  ===========
@@ -49,6 +42,8 @@ RUN apt install -y git
 RUN apt install -y emacs28
 RUN apt install -y global
 
+# Sometimes emacs is bust!
+RUN apt install -y vim
 
 ################################################################################
 # Install lsp clangd-13 (C language LSP server for code completion)
@@ -59,6 +54,7 @@ RUN apt update
 RUN apt install -y pip
 RUN apt install -y clangd-13
 RUN apt install -y cppcheck
+RUN apt install -y curl
 RUN pip install python-lsp-server
 
 
@@ -165,4 +161,26 @@ RUN emacs -nw -batch -u "$USERNAME" -q -kill
 RUN git config --global user.name $USERNAME \
     && git config --global user.email $USERNAME@harmonicss.co.uk
 
-ENTRYPOINT ["emacs"]
+
+################################################################################
+# Install rust, problem getting a yes to install silently
+#
+#  https://github.com/rust-lang/rustup/issues/297
+#    -s Runs the stdin of sh as the script.
+#    -- is used to tell the shell that further arguments are not options:
+################################################################################
+RUN curl -sSf https://sh.rustup.rs | sh -s -- -y
+
+
+################################################################################
+# install rust-analyser
+################################################################################
+RUN git clone https://github.com/rust-analyzer/rust-analyzer.git
+# needs to be in the same directory
+# cargo not in the /bin/sh path, for some reason
+RUN cd rust-analyzer && /home/$USERNAME/.cargo/bin/cargo xtask install --server
+
+
+
+#ENTRYPOINT ["emacs"]
+CMD ["emacs"]

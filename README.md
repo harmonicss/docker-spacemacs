@@ -8,8 +8,11 @@
  - .spacemacs config file used at HSS
  - git
  - gnu global for tagging
- - clangd, gcc and cppcheck for live syntax checking usng lsp-mode 
+ - clangd, gcc and cppcheck for C/C++ live syntax checking using lsp-mode 
  - source code pro font
+ - vim (incase emacs is bust)
+ - curl
+ - rust and rust-analyzer for rust lsp
 
 
  Build using (dont forget the .)
