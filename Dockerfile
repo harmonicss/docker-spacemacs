@@ -42,8 +42,10 @@ RUN apt install -y git
 RUN apt install -y emacs28
 RUN apt install -y global
 
+
 # Sometimes emacs is bust!
-RUN apt install -y vim
+# not working on pve-desktop-4
+#RUN apt install -y vim
 
 ################################################################################
 # Install lsp clangd-13 (C language LSP server for code completion)
@@ -137,9 +139,9 @@ RUN git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
 
 
 ################################################################################
-# lock spacemacs at latest as of Nov 13 2022
+# lock spacemacs at latest as of June 25 2023
 ################################################################################
-RUN cd .emacs.d && git checkout 57a7a0e63c4aecf810b19ca3fd49e5ae1a838126
+RUN cd .emacs.d && git checkout 6fd09d315e1959055f43d1390867a61c6f9c4deb
 RUN cd ~
 RUN git init
 RUN git remote add origin https://github.com/harmonicss/spacemacs.git
@@ -179,8 +181,6 @@ RUN git clone https://github.com/rust-analyzer/rust-analyzer.git
 # needs to be in the same directory
 # cargo not in the /bin/sh path, for some reason
 RUN cd rust-analyzer && /home/$USERNAME/.cargo/bin/cargo xtask install --server
-
-
 
 #ENTRYPOINT ["emacs"]
 CMD ["emacs"]
