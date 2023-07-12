@@ -139,9 +139,9 @@ RUN git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d
 
 
 ################################################################################
-# lock spacemacs at latest as of June 25 2023
+# lock spacemacs at latest as of Nov 13 2022
 ################################################################################
-RUN cd .emacs.d && git checkout 6fd09d315e1959055f43d1390867a61c6f9c4deb
+RUN cd .emacs.d && git checkout bdc9d0bec554c363417c04b674fda021398fbe4f
 RUN cd ~
 RUN git init
 RUN git remote add origin https://github.com/harmonicss/spacemacs.git
@@ -156,6 +156,14 @@ RUN mkdir ~/.emacs.d/undo
 RUN emacs -nw -batch -u "$USERNAME" -q -kill
 RUN emacs -nw -batch -u "$USERNAME" -q -kill
 
+################################################################################
+# Fix for issue spacemacs bug - #15896
+# Fixes for emacs version 28.1 and 28.2.
+# https://github.com/syl20bnr/spacemacs/issues/15896
+################################################################################
+RUN rm -rf ~/.emacs.d/elpa/28.1/develop/org-9*
+RUN rm -rf ~/.emacs.d/elpa/28.2/develop/org-9*
+RUN emacs -nw -batch -u "$USERNAME" -q -kill
 
 ################################################################################
 # Configure git
